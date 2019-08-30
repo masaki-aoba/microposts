@@ -13,6 +13,13 @@
           <% if current_user == micropost.user %>
             <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
           <% end %>
+          <!-- 下記でFavoritesControllerのcreateアクションにとぶ -->
+          <% if current_user.favorite? micropost %>
+            <%= link_to "Unfavorite", favorite_path(Favorite.find_by(user: current_user, micropost: micropost),micropost_id: micropost.id), method: :delete, class: "btn btn-danger btn-sm" %>
+          <% else %>
+            <!-- いいねしていないときには、Favoriteボタンを表示する -->
+            <%= link_to "Favorite", favorites_path(micropost_id: micropost.id), method: :post, class: "btn btn-primary btn-sm" %>
+          <% end %>
         </div>
       </div>
     </li>

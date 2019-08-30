@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.order(id: :desc).page(params[:page]).per(25)
+    @user =User.find(session[:user_id])
   end
 
   def show
@@ -36,6 +37,19 @@ class UsersController < ApplicationController
   def followers
     @user = User.find(params[:id])
     @followers = @user.followers.page(params[:page])
+    counts(@user)
+  end
+  
+  def favorites
+    @user = User.find(params[:id])
+    @favorites = @user.favorites.page(params[:page])
+    counts(@user)
+  end
+  
+  #お気に入り投稿取得
+  def likes
+    @user = User.find(params[:id])
+    @favorites = @user.favorite_microposts.page(params[:page])
     counts(@user)
   end
 
